@@ -21,8 +21,7 @@ var manifest = {
   dev: {
     "background": {
       "scripts": [
-        "scripts/livereload.js",
-        "scripts/background.js"
+        "scripts/livereload.js"
       ]
     }
   },
@@ -127,10 +126,7 @@ function mergeAll(dest) {
 
 function buildJS(target) {
   const files = [
-    'background.js',
     'contentscript.js',
-    'options.js',
-    'popup.js',
     'livereload.js'
   ]
 

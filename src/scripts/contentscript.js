@@ -1,34 +1,15 @@
-import ext from "./utils/ext";
+import Widget from './utils/widget';
 
-var extractTags = () => {
-  var url = document.location.href;
-  if(!url || !url.match(/^http/)) return;
+let app = new Widget({
+  defaultPrice: '60'
+});
 
-  var data = {
-    title: "",
-    description: "",
-    url: document.location.href
-  }
+app.inject();
+app.onStart(function(price) {
+  console.log('start', price);
+  app.onbuy();
+});
 
-  var ogTitle = document.querySelector("meta[property='og:title']");
-  if(ogTitle) {
-    data.title = ogTitle.getAttribute("content")
-  } else {
-    data.title = document.title
-  }
-
-  var descriptionTag = document.querySelector("meta[property='og:description']") || document.querySelector("meta[name='description']")
-  if(descriptionTag) {
-    data.description = descriptionTag.getAttribute("content")
-  }
-
-  return data;
-}
-
-function onRequest(request, sender, sendResponse) {
-  if (request.action === 'process-page') {
-    sendResponse(extractTags())
-  }
-}
-
-ext.runtime.onMessage.addListener(onRequest);
+app.onStop(function(price) {
+  console.log('stop', price);
+});

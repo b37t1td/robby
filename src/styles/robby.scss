@@ -1,0 +1,53 @@
+.robby-app {
+  position: fixed;
+  width: 240px;
+  height: 70px;
+  border: 1px solid #eee;
+  right: 5px;
+  top: 5px;
+  z-index: 99999;
+  background: #fafafa;
+  box-shadow: 0px 0px 2px #ddd;
+  padding: 5px;
+
+  button {
+    float: left;
+  }
+
+  .stats {
+    margin-top: 10px;
+    float: right;
+    .buy {
+      color: green;
+    }
+
+    .fail {
+      color: red;
+    }
+  }
+
+  .prices {
+    margin: 10px 0;
+      label{
+        font-size:18px;
+        vertical-align: middle;
+      }
+
+    input[type="radio"]{
+      vertical-align: middle;
+    }
+
+    label {
+      font-size: 14px;
+      vertical-align: middle;
+      &, input {
+        cursor: pointer;
+      }
+      input {
+        margin: 0 5px;
+      }
+    }
+
+  }
+
+}
