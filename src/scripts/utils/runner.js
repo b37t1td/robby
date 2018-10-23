@@ -58,7 +58,6 @@ Runner.prototype.callback = function callback(status, data) {
     if (data && data.runInfo) {
       timeout = Number(data.runInfo.timeRemaining);
       this.opt.onrace(data.runInfo.racerCount);
-      setTimeout(() => { this.upup(); }, timeout + 20);
     }
 
     if (status === 'error') {
