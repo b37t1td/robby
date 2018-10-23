@@ -9,11 +9,12 @@
     "http://*/*",
     "https://*/*"
   ],
+  "web_accessible_resources" : ["scripts/contentscript.js"],
   "content_scripts": [
     {
       "matches": [
-        "http://*/*",
-        "https://*/*"
+        "http://www.tagged.com/apps/pets.html*",
+        "https://www.tagged.com/apps/pets.html*"
       ],
       "js": [
         "scripts/contentscript.js"

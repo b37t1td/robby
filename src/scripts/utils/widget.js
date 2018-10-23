@@ -45,17 +45,28 @@ Widget.prototype.inject = function() {
   stats.classList.add('stats');
   this.buy = document.createElement('span');
   this.fail = document.createElement('span');
+  this.racer = document.createElement('span');
   this.buy.classList.add('buy');
   this.fail.classList.add('fail');
+  this.racer.classList.add('racer');
   this.buy.innerText = '0';
   this.fail.innerText = '0';
+  this.racer.innerText = '0';
   stats.appendChild(document.createTextNode('status: '));
   stats.appendChild(this.buy);
   stats.appendChild(document.createTextNode(' / '));
   stats.appendChild(this.fail);
+  stats.appendChild(document.createTextNode(' / '));
+  stats.appendChild(this.racer);
 
   this.container.appendChild(stats);
   document.body.appendChild(this.container);
+}
+
+Widget.prototype.lockProps = function(val) {
+  for (let p of qPrices) {
+    this[`q${p}`].disabled = val;
+  }
 }
 
 Widget.prototype.selectedPrice = function() {
@@ -64,6 +75,10 @@ Widget.prototype.selectedPrice = function() {
       return p;
     }
   }
+}
+
+Widget.prototype.onrace = function(racers) {
+  this.racer.innerText = racers;
 }
 
 Widget.prototype.onbuy = function() {
@@ -82,6 +97,12 @@ Widget.prototype.start = function() {
   this.started = true;
   this.btnText.textContent = 'stop';
   this.onStartCb(price);
+  this.buys = -1;
+  this.fails = -1;
+  this.onbuy();
+  this.onfail();
+  this.onrace(0);
+  this.lockProps(true);
 }
 
 Widget.prototype.stop = function() {
@@ -89,6 +110,8 @@ Widget.prototype.stop = function() {
   this.started = false;
   this.btnText.textContent = 'start';
   this.onStopCb(price);
+  this.lockProps(false);
+  this.onrace(0);
 }
 
 Widget.prototype.btnClick = function() {
