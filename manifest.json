@@ -1,8 +1,8 @@
 {
-  "name": "__MSG_appName__",
+  "name": "Robby",
   "version": "0.0.1",
   "manifest_version": 2,
-  "description": "__MSG_appDescription__",
+  "description": "Pet buyer",
   "default_locale": "en",
   "permissions": [
     "activeTab",
