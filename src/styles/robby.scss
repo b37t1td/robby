@@ -1,17 +1,9 @@
 .robby-app {
-  position: fixed;
-  width: 240px;
-  height: 70px;
-  border: 1px solid #eee;
-  right: 5px;
-  top: 50px;
-  z-index: 99999;
-  background: #fafafa;
-  box-shadow: 0px 0px 2px #ddd;
-  padding: 5px;
+  padding-top: 10px;
 
   button {
     float: left;
+    font-weight: bold;
   }
 
   .stats {
@@ -27,7 +19,7 @@
   }
 
   .prices {
-    margin: 10px 0;
+    margin: 20px 0;
       label{
         font-size:18px;
         vertical-align: middle;

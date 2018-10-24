@@ -34,8 +34,9 @@ Widget.prototype.inject = function() {
   this[`q${this.opt.defaultPrice}`].checked = true;
 
   this.btn = document.createElement('button');
-  this.btnText = document.createTextNode('start');
+  this.btnText = document.createTextNode('Start now!');
   this.btn.appendChild(this.btnText);
+  this.btn.classList.add('greenBtn');
   this.btn.addEventListener('click', this.btnClick.bind(this));
 
   this.container.appendChild(prices);
@@ -60,7 +61,32 @@ Widget.prototype.inject = function() {
   stats.appendChild(this.racer);
 
   this.container.appendChild(stats);
-  document.body.appendChild(this.container);
+  //document.body.appendChild(this.container);
+  this.insertContainer();
+
+  window.addEventListener('popstate', () => {
+    this.insertContainer();
+  });
+}
+
+Widget.prototype.insertContainer = function() {
+  let count = 0;
+  let awaitVal = setInterval(() => {
+    if (!window.location.href.match(/^.*\/\d+$/)) {
+      return;
+    }
+    let div = document.querySelector('#pet-page .id-container-pet-info');
+    if (div) {
+      div.appendChild(this.container);
+      clearInterval(awaitVal);
+    }
+
+    if (count  >= 10) {
+      clearInterval(awaitVal);
+    }
+
+    count++;
+  }, 1000);
 }
 
 Widget.prototype.lockProps = function(val) {
@@ -95,7 +121,7 @@ Widget.prototype.onfail = function() {
 Widget.prototype.start = function() {
   let price = this.selectedPrice();
   this.started = true;
-  this.btnText.textContent = 'stop';
+  this.btnText.textContent = 'Stop';
   this.onStartCb(price);
   this.buys = -1;
   this.fails = -1;
@@ -108,7 +134,7 @@ Widget.prototype.start = function() {
 Widget.prototype.stop = function() {
   let price = this.selectedPrice();
   this.started = false;
-  this.btnText.textContent = 'start';
+  this.btnText.textContent = 'Start now!';
   this.onStopCb(price);
   this.lockProps(false);
   this.onrace(0);
