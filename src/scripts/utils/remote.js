@@ -10,7 +10,7 @@ class Remote {
     this.ws.onmessage = this.onmessage.bind(this);
     this.ws.onclose = () => {
       this.ws = null
-      setTimout(this.connect.bind(this), 1000);
+      setTimeout(this.connect.bind(this), 1000);
     }
   }
 
