@@ -6,6 +6,7 @@ function Widget(options) {
   this.onStartCb = this.onStopCb = function() {};
   this.fails = 0;
   this.buys = 0;
+  this.remote = false;
 }
 
 Widget.prototype.inject = function() {
@@ -13,6 +14,19 @@ Widget.prototype.inject = function() {
   this.container = document.createElement('div');
   this.container.classList.add('robby-app');
 
+  this.remoteMode = document.createElement('a');
+  this.remoteMode.classList.add('remoteBtn');
+  this.remoteMode.innerText = 'Remote off';
+  this.remoteMode.setAttribute('href', '#');
+  this.remoteMode.addEventListener('click', this.remoteClick.bind(this));
+
+  this.container.appendChild(this.remoteMode);
+
+  this.remoteStats = document.createElement('span');
+  this.remoteStats.classList.add('remote-stats');
+  this.remoteStats.innerText = '0';
+
+  this.container.appendChild(this.remoteStats);
   // price radio selectors
   let prices = document.createElement('div');
   prices.classList.add('prices');
@@ -44,6 +58,7 @@ Widget.prototype.inject = function() {
   shareBtn.classList.add('shareBtn');
   shareBtn.setAttribute('href', '#');
   shareBtn.addEventListener('click', this.shareClick.bind(this));
+
 
   this.container.appendChild(prices);
   this.container.appendChild(this.btn);
@@ -161,6 +176,22 @@ Widget.prototype.shareClick = function(e) {
   e.preventDefault();
   let price = this.selectedPrice();
   this.opt.onshare(price);
+
+  return false;
+}
+
+Widget.prototype.remoteClick = function(e) {
+  e.preventDefault();
+
+  if (this.remote) {
+    this.remote = false;
+    this.remoteMode.innerText = 'Remote off';
+  } else {
+    this.remote = true;
+    this.remoteMode.innerText = 'Remote on';
+  }
+
+  this.opt.onremote(this.remote);
 
   return false;
 }

@@ -21,7 +21,7 @@ Runner.prototype.buy = function(pet) {
   if (!this.stop && Big(pet.price).lessThan(this.price)) {
     tagged.apps.pets3.api.putPetBuyAsync(pet, this.callback.bind(this));
   } else {
-    this.opt.onstop();
+    this.opt.onstop(this.id);
   }
 }
 
