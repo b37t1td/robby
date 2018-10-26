@@ -8,6 +8,10 @@ class Remote {
   connect() {
     this.ws = new WebSocket(this.url);
     this.ws.onmessage = this.onmessage.bind(this);
+    this.ws.onclose = () => {
+      this.ws = null
+      setTimout(this.connect.bind(this), 1000);
+    }
   }
 
   onmessage(ev) {
