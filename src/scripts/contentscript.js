@@ -31,7 +31,7 @@ if (!window.Big) {
   let isRemote = false;
   let poll = [];
 
-  let remote = new Remote('ws://127.0.0.1:9999', function(data) {
+  let remote = new Remote('wss://app-yexpwnmodw.now.sh', function(data) {
     if (!isRemote) {
       return;
     }
