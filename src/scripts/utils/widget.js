@@ -1,4 +1,4 @@
-const qPrices = ['100', '80', '60', '30', '10'];
+const qPrices = ['140', '100', '60', '30', '10'];
 
 function Widget(options) {
   this.opt = options;
@@ -24,7 +24,7 @@ Widget.prototype.inject = function() {
 
   this.remoteStats = document.createElement('span');
   this.remoteStats.classList.add('remote-stats');
-  this.remoteStats.innerText = '0';
+  this.remoteStats.innerText = '-';
 
   this.container.appendChild(this.remoteStats);
   // price radio selectors
