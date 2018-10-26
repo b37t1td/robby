@@ -39,8 +39,15 @@ Widget.prototype.inject = function() {
   this.btn.classList.add('greenBtn');
   this.btn.addEventListener('click', this.btnClick.bind(this));
 
+  let shareBtn = document.createElement('a');
+  shareBtn.innerText = 'Share';
+  shareBtn.classList.add('shareBtn');
+  shareBtn.setAttribute('href', '#');
+  shareBtn.addEventListener('click', this.shareClick.bind(this));
+
   this.container.appendChild(prices);
   this.container.appendChild(this.btn);
+  this.container.appendChild(shareBtn);
 
   let stats = document.createElement('div');
   stats.classList.add('stats');
@@ -148,6 +155,14 @@ Widget.prototype.btnClick = function() {
   } else {
     this.start();
   }
+}
+
+Widget.prototype.shareClick = function(e) {
+  e.preventDefault();
+  let price = this.selectedPrice();
+  this.opt.onshare(price);
+
+  return false;
 }
 
 Widget.prototype.onStart = function(cb) {

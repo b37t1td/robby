@@ -27,7 +27,10 @@ if (!window.Big) {
   }
 
   let app = new Widget({
-    defaultPrice: '60'
+    defaultPrice: '60',
+    onshare: function(price) {
+      console.log(price);
+    }
   });
 
   let runner = new Runner({
