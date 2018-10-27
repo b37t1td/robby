@@ -1,4 +1,4 @@
-import Widget from './utils/widget';
+import Widget from './ui/widget';
 import Runner from './utils/runner';
 import Remote from './utils/remote';
 import ext from './utils/ext';
@@ -19,22 +19,29 @@ if (!window.Big) {
 } else {
 
   function petId() {
-    return window.location.href.replace(/^.+\/(\d+)$/,'$1');
+    return Number(window.location.href.replace(/^.+\/(\d+)$/,'$1'));
   }
+
   //tagged.apps.pets3.api.getPet({ pet_id: '5460990113' }, function() { console.log(arguments) })
   let app;
   let isRemote = false;
 
   let remote = new Remote('wss://app-yexpwnmodw.now.sh', function(data) {
-    if (data.type === 'share' && isRemote) {
+    if (!isRemote) { return; }
+
+    if (data.type === 'share') {
       pollAppend(app, data);
+    }
+
+    if (data.type === 'ping') {
+      remote.send({ type: 'pong', id: Number(tagged.data.user_id) });
     }
   });
 
   app = new Widget({
     defaultPrice: '60',
     onshare: function(price) {
-      remote.send({ type: 'share',  id: Number(petId()), price: price });
+      remote.send({ type: 'share',  id: petId(), price: price });
     },
     onremote: function(trigger) {
       isRemote = trigger;
@@ -50,10 +57,18 @@ if (!window.Big) {
 
   app.inject();
   app.onStart(function(price) {
-    runner.run(Number(petId()), prices[price]);
+    runner.run(petId(), prices[price]);
   }.bind(this));
 
   app.onStop(function(price) {
     runner.off();
   }.bind(this));
+
+  setInterval(function() {
+    if (!isRemote) {
+      remote.updateRemotes(function(a) {
+        console.log(a);
+      });
+    }
+  }, 2000);
 }

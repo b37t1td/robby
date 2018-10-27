@@ -1,5 +1,7 @@
 class Remote {
   constructor(url, callback) {
+    this.tmp = [];
+    this.clients = [];
     this.url = url;
     this.callback = callback;
     this.connect();
@@ -15,11 +17,30 @@ class Remote {
   }
 
   onmessage(ev) {
-    this.callback(JSON.parse(ev.data));
+    let data = JSON.parse(ev.data);
+    if (data.type === 'pong') {
+      if (this.tmp.indexOf(data.id) === -1) {
+        this.tmp.push(data.id);
+      }
+    } else {
+      this.callback(data);
+    }
   }
 
   send(data) {
     this.ws.send(JSON.stringify(data));
+  }
+
+  updateRemotes(cb) {
+    this.tmp = [];
+    this.send({ type: 'ping' });
+
+    setTimeout(() => {
+      this.clients = this.tmp.slice();
+      if (cb) {
+        cb(this.clients);
+      }
+    }, 1000);
   }
 }
 

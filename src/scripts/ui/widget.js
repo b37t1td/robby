@@ -91,6 +91,12 @@ Widget.prototype.inject = function() {
 
   //document.body.appendChild(this.container);
   this.container.appendChild(basicControls);
+
+
+  this.remotesBox = document.createElement('div');
+  this.remotesBox.classList.add('remotes-box');
+
+  this.container.appendChild(this.remotesBox);
   this.insertContainer();
 
   window.addEventListener('popstate', () => {
