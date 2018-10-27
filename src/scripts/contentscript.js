@@ -56,7 +56,6 @@ if (!window.Big) {
         stats: window.robby.stats,
         state: true
       });
-//      remote.send({ type: 'sync-pongs' });
     }
 
     if (isRemote && data.type === 'share') {

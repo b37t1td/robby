@@ -59,10 +59,16 @@ Widget.prototype.inject = function() {
   this.btn.addEventListener('click', this.btnClick.bind(this));
 
   this.shareBtn = document.createElement('a');
-  this.shareBtn.innerHTML = 'Start run <i>▶</i>';
+  this.shareBtn.innerHTML = '<i>▶</i>';
   this.shareBtn.classList.add('share-all');
   this.shareBtn.setAttribute('href', '#');
   this.shareBtn.addEventListener('click', this.shareClick.bind(this));
+
+  this.unshareBtn = document.createElement('a');
+  this.unshareBtn.innerHTML = 'all <i>◼</i>';
+  this.unshareBtn.classList.add('unshare-all');
+  this.unshareBtn.setAttribute('href', '#');
+  this.unshareBtn.addEventListener('click', this.unshareClick.bind(this));
 
 
   let basicControls = document.createElement('div');
@@ -100,7 +106,10 @@ Widget.prototype.inject = function() {
   let remotesTitle = document.createElement('h4');
   remotesTitle.innerText = 'Online:';
   this.remotesBox.appendChild(remotesTitle);
+
   this.remotesBox.appendChild(this.shareBtn);
+  this.remotesBox.appendChild(this.unshareBtn);
+
   this.totalRemotes = document.createElement('span');
   remotesTitle.appendChild(this.totalRemotes);
 
@@ -199,18 +208,18 @@ Widget.prototype.btnClick = function() {
   }
 }
 
+Widget.prototype.unshareClick = function(e) {
+  e.preventDefault();
+  let price = this.selectedPrice();
+  this.opt.onshare(price, false);
+
+  return false;
+}
+
 Widget.prototype.shareClick = function(e) {
   e.preventDefault();
-  this.isRun = !this.isRun;
   let price = this.selectedPrice();
-  this.opt.onshare(price, this.isRun);
-
-  if (this.isRun) {
-    this.shareBtn.innerHTML = 'Stop run <i>◼</i>';
-  } else {
-    this.shareBtn.innerHTML = 'Start run <i>▶</i>';
-  }
-
+  this.opt.onshare(price, true);
   return false;
 }
 
