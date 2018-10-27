@@ -20,13 +20,16 @@ Widget.prototype.inject = function() {
   this.remoteMode.setAttribute('href', '#');
   this.remoteMode.addEventListener('click', this.remoteClick.bind(this));
 
-  this.container.appendChild(this.remoteMode);
 
-  this.remoteStats = document.createElement('span');
+  this.remoteStats = document.createElement('div');
   this.remoteStats.classList.add('remote-stats');
-  this.remoteStats.innerText = '-';
 
-  this.container.appendChild(this.remoteStats);
+  let remoteContainer = document.createElement('div');
+  remoteContainer.classList.add('remote-controls');
+  remoteContainer.appendChild(this.remoteMode);
+  remoteContainer.appendChild(this.remoteStats);
+
+  this.container.appendChild(remoteContainer);
   // price radio selectors
   let prices = document.createElement('div');
   prices.classList.add('prices');
@@ -55,14 +58,16 @@ Widget.prototype.inject = function() {
 
   let shareBtn = document.createElement('a');
   shareBtn.innerText = 'Share';
-  shareBtn.classList.add('shareBtn');
+  shareBtn.classList.add('share-all');
   shareBtn.setAttribute('href', '#');
   shareBtn.addEventListener('click', this.shareClick.bind(this));
 
 
-  this.container.appendChild(prices);
-  this.container.appendChild(this.btn);
-  this.container.appendChild(shareBtn);
+  let basicControls = document.createElement('div');
+  basicControls.classList.add('basic-controls');
+  basicControls.appendChild(prices);
+  basicControls.appendChild(this.btn);
+  basicControls.appendChild(shareBtn);
 
   let stats = document.createElement('div');
   stats.classList.add('stats');
@@ -82,8 +87,10 @@ Widget.prototype.inject = function() {
   stats.appendChild(document.createTextNode(' / '));
   stats.appendChild(this.racer);
 
-  this.container.appendChild(stats);
+  basicControls.appendChild(stats);
+
   //document.body.appendChild(this.container);
+  this.container.appendChild(basicControls);
   this.insertContainer();
 
   window.addEventListener('popstate', () => {
@@ -185,9 +192,11 @@ Widget.prototype.remoteClick = function(e) {
 
   if (this.remote) {
     this.remote = false;
+    this.container.classList.remove('remote-mode');
     this.remoteMode.innerText = 'Remote off';
   } else {
     this.remote = true;
+    this.container.classList.add('remote-mode');
     this.remoteMode.innerText = 'Remote on';
   }
 

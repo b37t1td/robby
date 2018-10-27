@@ -1,55 +1,62 @@
 .robby-app {
   padding-top: 10px;
 
-  button {
-    float: left;
-    font-weight: bold;
-  }
-
-  .shareBtn {
-    line-height: 25px;
-    margin-left: 10px;
-  }
-
-  .remote-stats {
-    float: right;
-    font-weight: bold;
-  }
-
-  .stats {
-    margin-top: 6px;
-    float: right;
-    .buy {
-      color: green;
+  .basic-controls {
+    button {
+      float: left;
+      font-weight: bold;
     }
 
-    .fail {
-      color: red;
+    .share-all {
+      line-height: 25px;
+      margin-left: 10px;
     }
-  }
 
-  .prices {
-    margin: 20px 0;
-      label{
-        font-size:18px;
+    .remote-stats {
+      float: right;
+      font-weight: bold;
+    }
+
+    .stats {
+      margin-top: 6px;
+      float: right;
+      .buy {
+        color: green;
+      }
+
+      .fail {
+        color: red;
+      }
+    }
+
+    .prices {
+      margin: 20px 0;
+        label{
+          font-size:18px;
+          vertical-align: middle;
+        }
+
+      input[type="radio"]{
         vertical-align: middle;
       }
 
-    input[type="radio"]{
-      vertical-align: middle;
-    }
-
-    label {
-      font-size: 14px;
-      vertical-align: middle;
-      &, input {
-        cursor: pointer;
-      }
-      input {
-        margin: 0 5px;
+      label {
+        font-size: 14px;
+        vertical-align: middle;
+        &, input {
+          cursor: pointer;
+        }
+        input {
+          margin: 0 5px;
+        }
       }
     }
+  }
 
+  &.remote-mode {
+    .basic-controls {
+      display: none;
+    }
   }
 
 }
