@@ -28,7 +28,9 @@ class Remote {
   }
 
   send(data) {
-    this.ws.send(JSON.stringify(data));
+    if (this.ws) {
+      this.ws.send(JSON.stringify(data));
+    }
   }
 
   updateRemotes(cb) {

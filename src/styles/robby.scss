@@ -1,15 +1,18 @@
 .robby-app {
-  padding-top: 10px;
+  padding-top: 14px;
+
+  .remote-controls {
+    .remote-btn {
+      text-transform: uppercase;
+      text-decoration: none;
+      font-size: 10px;
+    }
+  }
 
   .basic-controls {
     button {
       float: left;
       font-weight: bold;
-    }
-
-    .share-all {
-      line-height: 25px;
-      margin-left: 10px;
     }
 
     .remote-stats {
@@ -51,6 +54,43 @@
         }
       }
     }
+  }
+
+  .remotes-box {
+    display: none;
+    clear: both;
+    position: relative;
+
+    h4 {
+      padding: 14px 0;
+      color: #444;
+
+      span {
+        margin-left: 10px;
+      }
+    }
+
+    .share-all {
+      position: absolute;
+      text-transform: uppercase;
+      text-decoration: none;
+      font-size: 10px;
+      top: 18px;
+      right: 14px;
+      i {
+        font-size: 14px;
+        margin-left: 5px;
+      }
+    }
+
+    .event-info {
+      width: 100%;
+    }
+
+  }
+
+  .remotes-box.visible {
+    display: block !important;
   }
 
   &.remote-mode {

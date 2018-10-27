@@ -7,15 +7,17 @@ function Widget(options) {
   this.fails = 0;
   this.buys = 0;
   this.remote = false;
+  this.isRun = false;
 }
 
 Widget.prototype.inject = function() {
   // container
   this.container = document.createElement('div');
+  this.container.setAttribute('id', 'robby-app');
   this.container.classList.add('robby-app');
 
   this.remoteMode = document.createElement('a');
-  this.remoteMode.classList.add('remoteBtn');
+  this.remoteMode.classList.add('remote-btn');
   this.remoteMode.innerText = 'Remote off';
   this.remoteMode.setAttribute('href', '#');
   this.remoteMode.addEventListener('click', this.remoteClick.bind(this));
@@ -56,18 +58,18 @@ Widget.prototype.inject = function() {
   this.btn.classList.add('greenBtn');
   this.btn.addEventListener('click', this.btnClick.bind(this));
 
-  let shareBtn = document.createElement('a');
-  shareBtn.innerText = 'Share';
-  shareBtn.classList.add('share-all');
-  shareBtn.setAttribute('href', '#');
-  shareBtn.addEventListener('click', this.shareClick.bind(this));
+  this.shareBtn = document.createElement('a');
+  this.shareBtn.innerHTML = 'Start run <i>▶</i>';
+  this.shareBtn.classList.add('share-all');
+  this.shareBtn.setAttribute('href', '#');
+  this.shareBtn.addEventListener('click', this.shareClick.bind(this));
 
 
   let basicControls = document.createElement('div');
   basicControls.classList.add('basic-controls');
   basicControls.appendChild(prices);
   basicControls.appendChild(this.btn);
-  basicControls.appendChild(shareBtn);
+//  basicControls.appendChild(shareBtn);
 
   let stats = document.createElement('div');
   stats.classList.add('stats');
@@ -95,6 +97,12 @@ Widget.prototype.inject = function() {
 
   this.remotesBox = document.createElement('div');
   this.remotesBox.classList.add('remotes-box');
+  let remotesTitle = document.createElement('h4');
+  remotesTitle.innerText = 'Online:';
+  this.remotesBox.appendChild(remotesTitle);
+  this.remotesBox.appendChild(this.shareBtn);
+  this.totalRemotes = document.createElement('span');
+  remotesTitle.appendChild(this.totalRemotes);
 
   this.container.appendChild(this.remotesBox);
   this.insertContainer();
@@ -111,6 +119,12 @@ Widget.prototype.insertContainer = function() {
       return;
     }
     let div = document.querySelector('#pet-page .id-container-pet-info');
+
+    let tmp = document.getElementById('robby-app');
+    if (tmp) {
+      div.removeChild(tmp);
+    }
+
     if (div) {
       div.appendChild(this.container);
       clearInterval(awaitVal);
@@ -187,8 +201,15 @@ Widget.prototype.btnClick = function() {
 
 Widget.prototype.shareClick = function(e) {
   e.preventDefault();
+  this.isRun = !this.isRun;
   let price = this.selectedPrice();
-  this.opt.onshare(price);
+  this.opt.onshare(price, this.isRun);
+
+  if (this.isRun) {
+    this.shareBtn.innerHTML = 'Stop run <i>◼</i>';
+  } else {
+    this.shareBtn.innerHTML = 'Start run <i>▶</i>';
+  }
 
   return false;
 }
