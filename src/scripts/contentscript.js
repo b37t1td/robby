@@ -25,43 +25,58 @@ if (!window.Big) {
 
   if (!window.robby) {
     window.robby = {
+      id: petId(),
       stats: {
         petRuns: [
-          {
-            id: '5460990113',
-            fail: 2,
-            buy: 1,
-            racer: 12
-          },
-          {
-            id: '5444669766',
-            fail: 40,
-            buy: 0,
-            racer: 1
-          }
+//          {
+//            id: '5460990113',
+//            fail: 2,
+//            buy: 1,
+//            racer: 12
+//          },
         ]
       }
     };
   }
 
   let app;
+  let remote;
   let remotesWidget;
   let isRemote = false;
 
   //let remote = new Remote('wss://app-yexpwnmodw.now.sh', function(data) {
-  let remote = new Remote('ws://127.0.0.1:9999', function(data) {
+  window.robby.remote = remote = new Remote('ws://127.0.0.1:9999', function(data) {
     if (isRemote && data.type === 'share') {
       pollAppend(app, data);
+      return;
     }
 
+    let myid = Number(tagged.data.user_id);
+
     if (isRemote && data.type === 'ping') {
-      remote.send({ type: 'pong', id: Number(tagged.data.user_id), stats: window.robby.stats });
+      remote.send({ type: 'pong', id: myid, stats: window.robby.stats });
+      return;
     }
 
     if (!isRemote && data.type === 'pongs') {
       remotesWidget.update(data.pongs);
+      return;
     }
 
+
+    if (isRemote && data.type === 'buy-remote' && data.client === myid) {
+      tagged.apps.pets3.api.getPet({ pet_id: data.pet }, (status, info) => {
+        tagged.apps.pets3.api.putPetBuyAsync(info.pet, function() { });
+      });
+    }
+
+    if (!isRemote && data.type === 'run-remote' && data.client === myid) {
+
+    }
+
+    if (isRemote && data.type === 'remove-remote' && data.client === myid) {
+
+    }
   });
 
   window.robby.app = app = new Widget({

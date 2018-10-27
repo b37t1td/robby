@@ -97,6 +97,7 @@ class Pet {
         pet = this.controlSubs[run.id];
       } else {
         pet = new Pet(run.id);
+        pet.clientId = this.id;
         this.controlSubs[run.id] = pet;
         this.el.appendChild(pet.el);
         pet.el.classList.add('sub-run');
@@ -105,7 +106,7 @@ class Pet {
         removeBtn.setAttribute('href', '#');
         removeBtn.classList.add('remove-btn');
         removeBtn.innerText = '✖';
-        removeBtn.addEventListener('click', this.subRemoveClick.bind(this));
+        removeBtn.addEventListener('click', this.subRemoveClick.bind(pet));
         pet.controlsBox.appendChild(removeBtn);
       }
 
@@ -117,24 +118,23 @@ class Pet {
         </div>
         `;
     }
-
   }
 
   runClick(e) {
     e.preventDefault();
-
+    window.robby.remote.send({ type: 'run-remote', client: this.id, pet: window.robby.id });
     return false;
   }
 
   buyClick(e) {
     e.preventDefault();
-
+    window.robby.remote.send({ type: 'buy-remote', client: this.id, pet: window.robby.id });
     return false;
   }
 
   subRemoveClick(e) {
     e.preventDefault();
-
+    window.robby.remote.send({ type: 'remove-remote', client: this.clientId, pet: Number(this.id) });
     return false;
   }
 
