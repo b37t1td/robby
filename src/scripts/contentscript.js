@@ -26,9 +26,20 @@ if (!window.Big) {
   if (!window.robby) {
     window.robby = {
       stats: {
-        runs: 0,
-        fails: 0,
-        wins: 0
+        petRuns: [
+          {
+            id: '5460990113',
+            fail: 2,
+            buy: 1,
+            racer: 12
+          },
+          {
+            id: '5444669766',
+            fail: 40,
+            buy: 0,
+            racer: 1
+          }
+        ]
       }
     };
   }

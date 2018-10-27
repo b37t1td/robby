@@ -25,6 +25,8 @@ class Remotes {
       if (clients.indexOf(p.id) === -1) {
         p.remove();
       } else {
+        let pong = pongs.filter((s) => p.id === s.id)[0];
+        p.updateStats(pong.stats);
         found.push(p.id);
       }
     }
@@ -33,7 +35,11 @@ class Remotes {
     let newRemotes = clients.filter((c) => found.indexOf(c) === -1);
 
     for (let n of newRemotes) {
-      this.pets.push(new Pet(n));
+      let pong = pongs.filter((p) => p.id === n)[0];
+      let pet = new Pet(n);
+      pet.updateStats(pong.stats);
+      pet.injectRemoteControls();
+      this.pets.push(pet);
     }
 
     this.updateList(clients.map((c) => this.pets.filter((p) => p.id === c)[0]));

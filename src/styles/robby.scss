@@ -23,13 +23,6 @@
     .stats {
       margin-top: 6px;
       float: right;
-      .buy {
-        color: green;
-      }
-
-      .fail {
-        color: red;
-      }
     }
 
     .prices {
@@ -74,9 +67,9 @@
       position: absolute;
       text-transform: uppercase;
       text-decoration: none;
-      font-size: 10px;
+      font-size: 12px;
       top: 14px;
-      right: 14px;
+      right: 4px;
       i {
         font-size: 14px;
         margin-left: 5px;
@@ -84,9 +77,90 @@
     }
 
     .event-info {
-      width: 100%;
+       width: 100%;
     }
 
+    .remote-item {
+      margin-bottom: 2px;
+      position: relative;
+
+      .controls-box {
+        a {
+          i {
+            display: inline-block;
+            font-size: 14px;
+            margin-left: 4px;
+          }
+        }
+
+        .buy-btn {
+          float: left;
+        }
+
+        .run-btn {
+          text-decoration: none;
+          text-transform: uppercase;
+          font-size: 12px;
+          float: right;
+        }
+      }
+
+    }
+
+
+    .user-name {
+      display: block;
+      height: 12px;
+      width: 100%;
+      overflow: hidden;
+      overflow-wrap: break-word;
+      margin-bottom: 8px;
+    }
+
+    .sub-run {
+      border: none;
+      margin-left: 10px;
+      .user-name {
+        width: 120px;
+      }
+      .id-photo-small {
+        width: 24px;
+      }
+
+      .controls-box {
+        position: absolute;
+        right: 0;
+        top: 0;
+
+        .remove-btn {
+          padding: 10px;
+          font-size: 14px;
+          text-decoration: none;
+          color: #444;
+        }
+      }
+      .event-info {
+        padding: 0;
+      }
+      img {
+        width: 24px;
+        height: 24px;
+      }
+    }
+
+    .stats-box {
+      width: 130px;
+      font-size: 10px !important;
+    }
+
+  }
+
+  .buy {
+    color: green;
+  }
+
+  .fail {
+    color: red;
   }
 
   .remotes-box.visible {
