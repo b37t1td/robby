@@ -44,14 +44,12 @@ Runner.prototype.callback = function callback(status, data) {
   }
 
   if (status === 'already_owner' || status === 'success') {
-    if (this.onown) {
-      this.onown = false;
+    if (this.oldPrice !== pet.price) {
+      this.oldPrice = pet.price;
       this.opt.onbuy();
     }
-    return setTimeout(() => { this.upup(); }, 6000);
+    return setTimeout(() => { this.upup(); }, 3000);
   }
-
-  this.onown = true;
 
   if (status === 'pet_run' || status === 'error') {
     var timeout = 2000;
@@ -69,7 +67,7 @@ Runner.prototype.callback = function callback(status, data) {
     if (this.sl === 8) {
       this.opt.onfail();
       this.sl = 0;
-      return setTimeout(() => { this.upup(); }, 4000);
+      return setTimeout(() => { this.upup(); }, 3000);
     }
 
     this.opt.onfail();

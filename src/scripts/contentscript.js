@@ -3,7 +3,7 @@ import Runner from './utils/runner';
 import Remote from './utils/remote';
 import ext from './utils/ext';
 import prices from './utils/prices';
-import { pollAppend } from './utils/poll';
+import PollRunner from './utils/poll';
 import RemotesWidget from './ui/list/remotes';
 
 function injectScript(file, node) {
@@ -26,6 +26,7 @@ if (!window.Big) {
   if (!window.robby) {
     window.robby = {
       id: petId(),
+      myid: Number(tagged.data.user_id),
       stats: {
         petRuns: [
 //          {
@@ -43,15 +44,28 @@ if (!window.Big) {
   let remote;
   let remotesWidget;
   let isRemote = false;
+  let poll = new PollRunner();
 
   //let remote = new Remote('wss://app-yexpwnmodw.now.sh', function(data) {
   window.robby.remote = remote = new Remote('ws://127.0.0.1:9999', function(data) {
+    let myid = window.robby.myid;
+
+    function remoteSync() {
+      remote.send({ type: 'pong', id: myid, stats: window.robby.stats });
+      remote.send({ type: 'sync-pongs' });
+    }
+
     if (isRemote && data.type === 'share') {
-      pollAppend(app, data);
+      poll.append(data);
+      remoteSync();
       return;
     }
 
-    let myid = Number(tagged.data.user_id);
+    if (isRemote && data.type === 'remove') {
+      poll.removePoll(data.id);
+      remoteSync();
+      return;
+    }
 
     if (isRemote && data.type === 'ping') {
       remote.send({ type: 'pong', id: myid, stats: window.robby.stats });
@@ -63,26 +77,34 @@ if (!window.Big) {
       return;
     }
 
-
     if (isRemote && data.type === 'buy-remote' && data.client === myid) {
       tagged.apps.pets3.api.getPet({ pet_id: data.pet }, (status, info) => {
         tagged.apps.pets3.api.putPetBuyAsync(info.pet, function() { });
       });
+      return;
     }
 
-    if (!isRemote && data.type === 'run-remote' && data.client === myid) {
-
+    if (isRemote && data.type === 'run-remote' && data.client === myid) {
+      poll.append(data);
+      remoteSync();
+      return;
     }
 
     if (isRemote && data.type === 'remove-remote' && data.client === myid) {
-
+      poll.removePoll(data.pet);
+      remoteSync();
+      return;
     }
   });
 
   window.robby.app = app = new Widget({
     defaultPrice: '60',
-    onshare: function(price) {
-      //  remote.send({ type: 'share',  id: petId(), price: price });
+    onshare: function(price, trigger) {
+       if (trigger) {
+        remote.send({ type: 'share',  id: petId(), price: price });
+       } else {
+        remote.send({ type: 'remove', id: petId() });
+       }
     },
     onremote: function(trigger) {
       remote.send({ type: 'force-pong',

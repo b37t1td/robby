@@ -85,7 +85,9 @@ class Pet {
       let sub = this.controlSubs[id];
 
       if (!(stats.petRuns.some((p) => p.id === sub.id))) {
-        this.el.removeChild(sub.el);
+        try {
+          this.el.removeChild(sub.el);
+        } catch(e) {}
         sub.remove();
         delete this.controlSubs[id];
       }
@@ -98,6 +100,7 @@ class Pet {
       } else {
         pet = new Pet(run.id);
         pet.clientId = this.id;
+        pet.parentEl = this.el;
         this.controlSubs[run.id] = pet;
         this.el.appendChild(pet.el);
         pet.el.classList.add('sub-run');
@@ -114,7 +117,7 @@ class Pet {
         <div>Stats:
           <span class="buy">${run.buy}</span> /
           <span class="fail">${run.fail}</span> /
-          <span class="racer">${run.racer}</span>
+          <span class="rice">${run.rice}</span>
         </div>
         `;
     }
@@ -122,7 +125,8 @@ class Pet {
 
   runClick(e) {
     e.preventDefault();
-    window.robby.remote.send({ type: 'run-remote', client: this.id, pet: window.robby.id });
+    window.robby.remote.send({ type: 'run-remote', client: this.id,
+      id: window.robby.id, price: window.robby.app.selectedPrice() });
     return false;
   }
 
@@ -134,6 +138,7 @@ class Pet {
 
   subRemoveClick(e) {
     e.preventDefault();
+    this.parentEl.removeChild(this.el);
     window.robby.remote.send({ type: 'remove-remote', client: this.clientId, pet: Number(this.id) });
     return false;
   }
