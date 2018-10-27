@@ -24,9 +24,13 @@ if (!window.Big) {
   }
 
   if (!window.robby) {
-    window.robby = { };
-  } else {
-    clearInterval(window.robby.syncRemotes);
+    window.robby = {
+      stats: {
+        runs: 0,
+        fails: 0,
+        wins: 0
+      }
+    };
   }
 
   let app;
@@ -35,15 +39,18 @@ if (!window.Big) {
 
   //let remote = new Remote('wss://app-yexpwnmodw.now.sh', function(data) {
   let remote = new Remote('ws://127.0.0.1:9999', function(data) {
-    if (!isRemote) { return; }
-
-    if (data.type === 'share') {
+    if (isRemote && data.type === 'share') {
       pollAppend(app, data);
     }
 
-    if (data.type === 'ping') {
-      remote.send({ type: 'pong', id: Number(tagged.data.user_id) });
+    if (isRemote && data.type === 'ping') {
+      remote.send({ type: 'pong', id: Number(tagged.data.user_id), stats: window.robby.stats });
     }
+
+    if (!isRemote && data.type === 'pongs') {
+      remotesWidget.update(data.pongs);
+    }
+
   });
 
   window.robby.app = app = new Widget({
@@ -52,6 +59,11 @@ if (!window.Big) {
       //  remote.send({ type: 'share',  id: petId(), price: price });
     },
     onremote: function(trigger) {
+      remote.send({ type: 'force-pong',
+        id: Number(tagged.data.user_id),
+        stats: window.robby.stats,
+        state: trigger
+      });
       remotesWidget.isRemote = isRemote = trigger;
       if (isRemote) {
         app.remotesBox.classList.remove('visible');
@@ -78,11 +90,7 @@ if (!window.Big) {
 
   remotesWidget = new RemotesWidget(app);
 
-  window.robby.syncRemotes = setInterval(function() {
-    if (!isRemote) {
-      remote.updateRemotes(function(a) {
-        remotesWidget.update(a);
-      });
-    }
-  }, 2000);
+  setTimeout(function() {
+    remote.send({ type: 'sync-pongs' });
+  }, 1000);
 }

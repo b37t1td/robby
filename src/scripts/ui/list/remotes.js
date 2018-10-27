@@ -9,7 +9,9 @@ class Remotes {
     app.remotesBox.appendChild(this.box);
   }
 
-  update(clients) {
+  update(pongs) {
+    let clients = pongs.map((p) => p.id);
+
     if (clients.length > 0 && !this.isRemote) {
       this.app.remotesBox.classList.add('visible');
       this.app.totalRemotes.innerText = clients.length;

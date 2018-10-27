@@ -13,7 +13,8 @@ class Pet {
     let href = document.createElement('a');
     let href1 = document.createElement('a');
     let pic = document.createElement('img');
-    let name = document.createElement('div');
+    let cell = document.createElement('div');
+    let name = document.createElement('span');
 
     href.classList.add('cell'); href.classList.add('id-photo-small');
     pic.classList.add('id-photo-small');
@@ -21,12 +22,22 @@ class Pet {
     href.appendChild(pic);
     href.setAttribute('href', info.pet.profile_link);
     href1.setAttribute('href', info.pet.profile_link);
-    name.classList.add('cell');
     name.innerText = info.pet.displayName;
     href1.appendChild(name);
+    cell.classList.add('cell');
+    cell.appendChild(href1);
+
+
+    this.controlsBox = document.createElement('div');
+    this.controlsBox.classList.add('controls-box');
+    this.statsBox = document.createElement('div');
+    this.statsBox.classList.add('stats-box');
+
+    cell.appendChild(this.statsBox);
+    cell.appendChild(this.controlsBox);
 
     box.appendChild(href);
-    box.appendChild(href1);
+    box.appendChild(cell);
     this.el.appendChild(box);
   }
 
