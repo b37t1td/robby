@@ -71,7 +71,7 @@ Runner.prototype.callback = function callback(status, data) {
     }
 
     this.opt.onfail();
-    let rtimeout = timeout - (2 + Math.floor(Math.random() * 10));
+    let rtimeout = timeout - (2 + Math.floor(Math.random() * 18));
 
     return setTimeout(() => { this.buy(pet); }, rtimeout);
   }

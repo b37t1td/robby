@@ -57,9 +57,9 @@ class Poll {
         stats.fail++;
       },
       onstop: (id) => { this.removePoll(id); },
-      onrace: function() {
+      onrace: function(rice) {
         let stats = getStats(data.id);
-        stats.rice++;
+        stats.rice = rice;
       },
     });
 

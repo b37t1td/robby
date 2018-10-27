@@ -138,7 +138,6 @@ class Pet {
 
   subRemoveClick(e) {
     e.preventDefault();
-    this.parentEl.removeChild(this.el);
     window.robby.remote.send({ type: 'remove-remote', client: this.clientId, pet: Number(this.id) });
     return false;
   }

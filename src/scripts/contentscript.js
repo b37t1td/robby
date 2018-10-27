@@ -51,8 +51,12 @@ if (!window.Big) {
     let myid = window.robby.myid;
 
     function remoteSync() {
-      remote.send({ type: 'pong', id: myid, stats: window.robby.stats });
-      remote.send({ type: 'sync-pongs' });
+      remote.send({ type: 'force-pong',
+        id: myid,
+        stats: window.robby.stats,
+        state: true
+      });
+//      remote.send({ type: 'sync-pongs' });
     }
 
     if (isRemote && data.type === 'share') {
