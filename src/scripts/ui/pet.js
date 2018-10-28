@@ -114,7 +114,7 @@ class Pet {
       }
 
       pet.statsBox.innerHTML = `
-        <div>Stats:
+        <div>Score:
           <span class="price">${run.price}</span> /
           <span class="buy">${run.buy}</span> /
           <span class="fail">${run.fail}</span> /

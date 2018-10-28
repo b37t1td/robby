@@ -88,7 +88,7 @@ Widget.prototype.inject = function() {
   this.buy.innerText = '0';
   this.fail.innerText = '0';
   this.racer.innerText = '0';
-  stats.appendChild(document.createTextNode('status: '));
+  stats.appendChild(document.createTextNode('Score: '));
   stats.appendChild(this.buy);
   stats.appendChild(document.createTextNode(' / '));
   stats.appendChild(this.fail);
