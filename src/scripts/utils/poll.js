@@ -17,6 +17,10 @@ function getPoll(id) {
   }
 }
 
+function updateTrigger() {
+  window.robby.updateTrigger();
+}
+
 let poll = [];
 
 class Poll {
@@ -51,15 +55,21 @@ class Poll {
       onbuy: function() {
         let stats = getStats(data.id);
         stats.buy++;
+        updateTrigger();
       },
       onfail: function() {
         let stats = getStats(data.id);
         stats.fail++;
+        updateTrigger();
       },
-      onstop: (id) => { this.removePoll(id); },
+      onstop: (id) => { 
+        this.removePoll(id);
+        updateTrigger();
+      },
       onrace: function(rice) {
         let stats = getStats(data.id);
         stats.rice = rice;
+        updateTrigger();
       },
     });
 
@@ -72,8 +82,11 @@ class Poll {
       id: data.id,
       buy: 0,
       fail: 0,
-      rice: 0
+      rice: 0,
+      price: data.price
     });
+
+    updateTrigger();
 
     runner.run(data.id, prices[data.price]);
   }

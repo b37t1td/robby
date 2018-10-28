@@ -5,6 +5,7 @@ import ext from './utils/ext';
 import prices from './utils/prices';
 import PollRunner from './utils/poll';
 import RemotesWidget from './ui/list/remotes';
+import Queue from './ui/list/queue';
 
 function injectScript(file, node) {
     var th = document.getElementsByTagName(node)[0];
@@ -28,14 +29,7 @@ if (!window.Big) {
       id: petId(),
       myid: Number(tagged.data.user_id),
       stats: {
-        petRuns: [
-//          {
-//            id: '5460990113',
-//            fail: 2,
-//            buy: 1,
-//            racer: 12
-//          },
-        ]
+        petRuns: [ ]
       }
     };
   }
@@ -43,19 +37,23 @@ if (!window.Big) {
   let app;
   let remote;
   let remotesWidget;
+  let queueWidget;
   let isRemote = false;
   let poll = new PollRunner();
+  window.robby.poll = poll;
 
   //let remote = new Remote('wss://app-yexpwnmodw.now.sh', function(data) {
   window.robby.remote = remote = new Remote('ws://127.0.0.1:9999', function(data) {
     let myid = window.robby.myid;
 
     function remoteSync() {
-      remote.send({ type: 'force-pong',
-        id: myid,
-        stats: window.robby.stats,
-        state: true
-      });
+      if (isRemote) {
+        remote.send({ type: 'force-pong',
+          id: myid,
+          stats: window.robby.stats,
+          state: true
+        });
+      }
     }
 
     if (isRemote && data.type === 'share') {
@@ -96,6 +94,7 @@ if (!window.Big) {
     if (isRemote && data.type === 'remove-remote' && data.client === myid) {
       poll.removePoll(data.pet);
       remoteSync();
+      window.robby.updateTrigger();
       return;
     }
   });
@@ -118,10 +117,14 @@ if (!window.Big) {
       remotesWidget.isRemote = isRemote = trigger;
       if (isRemote) {
         app.remotesBox.classList.remove('visible');
+        queueWidget.on();
+      } else {
+        queueWidget.off();
       }
     }
   });
 
+  queueWidget = new Queue(app);
 
   let runner = new Runner({
     onbuy: app.onbuy.bind(app),

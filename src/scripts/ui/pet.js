@@ -115,6 +115,7 @@ class Pet {
 
       pet.statsBox.innerHTML = `
         <div>Stats:
+          <span class="price">${run.price}</span> /
           <span class="buy">${run.buy}</span> /
           <span class="fail">${run.fail}</span> /
           <span class="rice">${run.rice}</span>
@@ -139,6 +140,12 @@ class Pet {
   subRemoveClick(e) {
     e.preventDefault();
     window.robby.remote.send({ type: 'remove-remote', client: this.clientId, pet: Number(this.id) });
+    return false;
+  }
+
+  queueRemoveClick(e) {
+    e.preventDefault();
+    window.robby.remote.send({ type: 'remove-remote', client: window.robby.myid, pet: Number(this.id) });
     return false;
   }
 

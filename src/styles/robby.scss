@@ -1,6 +1,37 @@
 .robby-app {
   padding-top: 14px;
 
+  .remote-stats {
+    .empty-queue {
+      text-align: center;
+      color: #999;
+      padding: 20px 0;
+    }
+
+    .remote-item {
+      margin-top: 2px;
+      position: relative;
+      width: 100%;
+
+      .event-info {
+        width: 100%;
+      }
+
+      .controls-box {
+        position: absolute;
+        right: 0;
+        top: 8px;
+
+        .remove-btn {
+          padding: 10px;
+          font-size: 14px;
+          text-decoration: none;
+          color: #444;
+        }
+      }
+    }
+  }
+
   .remote-controls {
     .remote-btn {
       text-transform: uppercase;
@@ -99,6 +130,7 @@
 
         .buy-btn {
           float: left;
+          font-size: 14px;
         }
 
         .run-btn {
