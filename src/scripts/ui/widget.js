@@ -1,4 +1,5 @@
-const qPrices = ['140', '100', '60', '30', '10'];
+import Sprices from '../utils/prices';
+const qPrices = Object.keys(Sprices).reverse();
 
 function Widget(options) {
   this.opt = options;

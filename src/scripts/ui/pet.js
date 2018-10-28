@@ -1,3 +1,5 @@
+import { petId } from '../utils/tools';
+
 class Pet {
   constructor(id) {
     this.id = id;
@@ -127,13 +129,13 @@ class Pet {
   runClick(e) {
     e.preventDefault();
     window.robby.remote.send({ type: 'run-remote', client: this.id,
-      id: window.robby.id, price: window.robby.app.selectedPrice() });
+      id: petId(), price: window.robby.app.selectedPrice() });
     return false;
   }
 
   buyClick(e) {
     e.preventDefault();
-    window.robby.remote.send({ type: 'buy-remote', client: this.id, pet: window.robby.id });
+    window.robby.remote.send({ type: 'buy-remote', client: this.id, pet: petId() });
     return false;
   }
 

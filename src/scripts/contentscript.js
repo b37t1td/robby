@@ -6,6 +6,9 @@ import prices from './utils/prices';
 import PollRunner from './utils/poll';
 import RemotesWidget from './ui/list/remotes';
 import Queue from './ui/list/queue';
+import { petId } from './utils/tools';
+
+//document.getElementById('inner_container').removeChild(document.getElementById('alerts_toast_container'))
 
 function injectScript(file, node) {
     var th = document.getElementsByTagName(node)[0];
@@ -20,13 +23,9 @@ if (!window.Big) {
   injectScript(ext.extension.getURL('/scripts/contentscript.js'), 'body');
 } else {
 
-  function petId() {
-    return Number(window.location.href.replace(/^.+\/(\d+)$/,'$1'));
-  }
 
   if (!window.robby) {
     window.robby = {
-      id: petId(),
       myid: Number(tagged.data.user_id),
       stats: {
         petRuns: [ ]

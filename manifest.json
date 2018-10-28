@@ -1,6 +1,6 @@
 {
   "name": "Robby",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "manifest_version": 2,
   "description": "Pet buyer",
   "default_locale": "en",
@@ -14,7 +14,9 @@
     {
       "matches": [
         "http://www.tagged.com/apps/pets.html*",
-        "https://www.tagged.com/apps/pets.html*"
+        "https://www.tagged.com/apps/pets.html*",
+        "http://www.hi5.com/apps/pets.html*",
+        "https://www.hi5.com/apps/pets.html*"
       ],
       "js": [
         "scripts/contentscript.js"

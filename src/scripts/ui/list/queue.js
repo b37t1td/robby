@@ -31,6 +31,11 @@ class Queue {
       this.app.remoteStats.removeChild(this.emptyElement);
       this.emptyElement = null;
     }
+    let toastContainer = document.getElementById('alerts_toast_container');
+
+    if (toastContainer) {
+      document.getElementById('inner_container').removeChild(toastContainer);
+    }
   }
 
   emptyBox() {
