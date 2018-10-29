@@ -1,5 +1,6 @@
 .robby-app {
-  padding-top: 14px;
+  padding: 14px;
+  clear: both;
 
   .remote-stats {
     .empty-queue {
@@ -34,13 +35,19 @@
 
   .remote-controls {
     .remote-btn {
+      display: none;
       text-transform: uppercase;
       text-decoration: none;
       font-size: 12px;
     }
   }
 
+  .home-controls {
+    display: none;
+  }
+
   .basic-controls {
+
     button {
       float: left;
       font-weight: bold;
@@ -85,6 +92,16 @@
     clear: both;
     position: relative;
 
+    .sub-run {
+      display: none;
+    }
+
+    &.show-subs {
+      .sub-run {
+        display: block;
+      }
+    }
+
     h4 {
       padding: 14px 0;
       color: #444;
@@ -94,7 +111,8 @@
       }
     }
 
-    .share-all, .unshare-all {
+
+    .share-all, .unshare-all, .details-btn {
       position: absolute;
       text-transform: uppercase;
       text-decoration: none;
@@ -105,6 +123,10 @@
         font-size: 14px;
         margin-left: 5px;
       }
+    }
+
+    .details-btn {
+      right: 150px;
     }
 
     .unshare-all {
@@ -155,10 +177,10 @@
       border: none;
       margin-left: 10px;
       .user-name {
-        width: 120px;
+        width: 180px;
       }
       .id-photo-small {
-        width: 24px;
+        width: 28px;
       }
 
       .controls-box {
@@ -177,14 +199,14 @@
         padding: 0;
       }
       img {
-        width: 24px;
-        height: 24px;
+        width: 32px;
+        height: 32px;
       }
     }
 
     .stats-box {
       width: 130px;
-      font-size: 10px !important;
+      font-size: 12px !important;
     }
 
   }
@@ -197,7 +219,7 @@
     color: red;
   }
 
-  .remotes-box.visible {
+  .visible {
     display: block !important;
   }
 

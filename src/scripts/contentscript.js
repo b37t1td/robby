@@ -6,7 +6,7 @@ import prices from './utils/prices';
 import PollRunner from './utils/poll';
 import RemotesWidget from './ui/list/remotes';
 import Queue from './ui/list/queue';
-import { petId } from './utils/tools';
+import { petId, myId } from './utils/tools';
 
 //document.getElementById('inner_container').removeChild(document.getElementById('alerts_toast_container'))
 
@@ -26,7 +26,7 @@ if (!window.Big) {
 
   if (!window.robby) {
     window.robby = {
-      myid: Number(tagged.data.user_id),
+      myid: myId(),
       stats: {
         petRuns: [ ]
       }

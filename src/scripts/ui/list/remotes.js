@@ -1,4 +1,5 @@
 import Pet from '../pet';
+import { petId, myId } from '../../utils/tools';
 
 class Remotes {
   constructor(app) {
@@ -10,6 +11,11 @@ class Remotes {
   }
 
   update(pongs) {
+    // home
+    if (petId() === myId()) {
+      pongs = [];
+    }
+
     let clients = pongs.map((p) => p.id);
 
     if (clients.length > 0 && !this.isRemote) {

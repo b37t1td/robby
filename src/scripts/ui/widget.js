@@ -1,4 +1,6 @@
 import Sprices from '../utils/prices';
+import { petId, myId } from '../utils/tools';
+
 const qPrices = Object.keys(Sprices).reverse();
 
 function Widget(options) {
@@ -71,11 +73,17 @@ Widget.prototype.inject = function() {
   this.unshareBtn.setAttribute('href', '#');
   this.unshareBtn.addEventListener('click', this.unshareClick.bind(this));
 
+  this.detailsBtn = document.createElement('a');
+  this.detailsBtn.innerHTML = 'Show details';
+  this.detailsBtn.classList.add('details-btn');
+  this.detailsBtn.setAttribute('href', '#');
+  this.detailsBtn.addEventListener('click', this.detailsClick.bind(this));
 
-  let basicControls = document.createElement('div');
-  basicControls.classList.add('basic-controls');
-  basicControls.appendChild(prices);
-  basicControls.appendChild(this.btn);
+
+  this.basicControls = document.createElement('div');
+  this.basicControls.classList.add('basic-controls');
+  this.basicControls.appendChild(prices);
+  this.basicControls.appendChild(this.btn);
 //  basicControls.appendChild(shareBtn);
 
   let stats = document.createElement('div');
@@ -96,10 +104,10 @@ Widget.prototype.inject = function() {
   stats.appendChild(document.createTextNode(' / '));
   stats.appendChild(this.racer);
 
-  basicControls.appendChild(stats);
+  this.basicControls.appendChild(stats);
 
   //document.body.appendChild(this.container);
-  this.container.appendChild(basicControls);
+  this.container.appendChild(this.basicControls);
 
 
   this.remotesBox = document.createElement('div');
@@ -108,6 +116,7 @@ Widget.prototype.inject = function() {
   remotesTitle.innerText = 'Online:';
   this.remotesBox.appendChild(remotesTitle);
 
+  this.remotesBox.appendChild(this.detailsBtn);
   this.remotesBox.appendChild(this.shareBtn);
   this.remotesBox.appendChild(this.unshareBtn);
 
@@ -128,19 +137,28 @@ Widget.prototype.insertContainer = function() {
     if (!window.location.href.match(/^.*\/\d+$/)) {
       return;
     }
-    let div = document.querySelector('#pet-page .id-container-pet-info');
-
+    let div = document.querySelector('.id-container-profile .id-container-pet.left-column');
     let tmp = document.getElementById('robby-app');
+    let isHome = petId() === myId();
+
+    if (!isHome) {
+      div = document.querySelector('#pet-page .id-container-profile .id-container-pet.left-column');
+    }
+
     if (tmp) {
       div.removeChild(tmp);
     }
-
     if (div) {
       div.appendChild(this.container);
+      if (isHome) {
+        this.basicControls.classList.add('home-controls');
+        this.remoteMode.classList.add('visible');
+      }
       clearInterval(awaitVal);
     }
 
-    if (count  >= 10) {
+
+    if (!div && count  >= 10) {
       clearInterval(awaitVal);
     }
 
@@ -221,6 +239,22 @@ Widget.prototype.shareClick = function(e) {
   e.preventDefault();
   let price = this.selectedPrice();
   this.opt.onshare(price, true);
+  return false;
+}
+
+Widget.prototype.detailsClick = function(e) {
+  e.preventDefault();
+
+  if (this.details) {
+    this.details = false;
+    this.detailsBtn.innerText = 'Show details';
+    this.remotesBox.classList.remove('show-subs');
+  } else {
+    this.details = true;
+    this.detailsBtn.innerText = 'Hide details';
+    this.remotesBox.classList.add('show-subs');
+  }
+
   return false;
 }
 
