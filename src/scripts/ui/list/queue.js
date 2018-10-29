@@ -81,7 +81,7 @@ class Queue {
     for (let pet of this.pets) {
       let run = runs.filter((p) => pet.id === p.id)[0];
       pet.statsBox.innerHTML = `
-        <div>Stats:
+        <div>Score:
           <span class="price">${run.price}</span> /
           <span class="buy">${run.buy}</span> /
           <span class="fail">${run.fail}</span> /
