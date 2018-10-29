@@ -145,9 +145,10 @@ Widget.prototype.insertContainer = function() {
       div = document.querySelector('#pet-page .id-container-profile .id-container-pet.left-column');
     }
 
-    if (tmp) {
+    if (tmp && div) {
       div.removeChild(tmp);
     }
+
     if (div) {
       div.appendChild(this.container);
       if (isHome) {
