@@ -11,9 +11,9 @@ class DelayWidget {
     this.count = document.createElement('span');
 
     this.input.setAttribute('type', 'range');
-    this.input.setAttribute('step', '5');
+    this.input.setAttribute('step', '2');
     this.input.setAttribute('min', 0);
-    this.input.setAttribute('max', 900);
+    this.input.setAttribute('max', 150);
 
     this.input.addEventListener('input', this.changeDelay.bind(this), false);
     this.update();
@@ -28,8 +28,9 @@ class DelayWidget {
 
   update() {
     setTimeout(() => {
-      this.input.setAttribute('value', window.robby.delay);
-      this.input.value = window.robby.delay;
+      let delay = window.robby.delay;
+      this.input.setAttribute('value', delay);
+      this.input.value = delay;
       this.updateCount();
     }, 300);
   }

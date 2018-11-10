@@ -27,7 +27,7 @@ if (!window.Big) {
   if (!window.robby) {
     window.robby = {
       myid: myId(),
-      delay: 5,
+      delay: 20,
       stats: {
         petRuns: [ ]
       }
