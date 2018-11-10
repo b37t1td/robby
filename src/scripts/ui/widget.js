@@ -132,34 +132,44 @@ Widget.prototype.inject = function() {
 }
 
 Widget.prototype.insertContainer = function() {
+  let tmp = document.getElementById('robby-app');
+  if (tmp) {
+    tmp.parentNode.removeChild(tmp);
+  }
+
   let count = 0;
   let awaitVal = setInterval(() => {
     if (!window.location.href.match(/^.*\/\d+$/)) {
       return;
     }
+
+    if (!petId()) {
+      return clearInterval(awaitWal);
+    }
+
     let div = document.querySelector('.id-container-profile .id-container-pet.left-column');
     let tmp = document.getElementById('robby-app');
+    let tmp1 = document.querySelector('#home-page .id-container-profile .id-container-pet.left-column #robby-app');
     let isHome = petId() === myId();
 
     if (!isHome) {
       div = document.querySelector('#pet-page .id-container-profile .id-container-pet.left-column');
+      this.basicControls.classList.remove('home-controls');
+      this.remoteMode.classList.remove('visible');
+    } else {
+      this.basicControls.classList.add('home-controls');
+      this.remoteMode.classList.add('visible');
     }
 
-    if (tmp && div) {
-      div.removeChild(tmp);
+    if (!isHome && tmp1) {
+      tmp1.parentNode.removeChild(tmp1);
     }
 
-    if (div) {
+    if (div && !tmp) {
       div.appendChild(this.container);
-      if (isHome) {
-        this.basicControls.classList.add('home-controls');
-        this.remoteMode.classList.add('visible');
-      }
-      clearInterval(awaitVal);
     }
 
-
-    if (!div && count  >= 10) {
+    if (count >= 10) {
       clearInterval(awaitVal);
     }
 
