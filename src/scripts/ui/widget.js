@@ -1,4 +1,5 @@
 import Sprices from '../utils/prices';
+import DelayWidget from './delay';
 import { petId, myId } from '../utils/tools';
 
 const qPrices = Object.keys(Sprices).reverse();
@@ -83,6 +84,11 @@ Widget.prototype.inject = function() {
   this.basicControls = document.createElement('div');
   this.basicControls.classList.add('basic-controls');
   this.basicControls.appendChild(prices);
+
+  let delayWidget = new DelayWidget();
+
+  this.basicControls.appendChild(delayWidget.el);
+
   this.basicControls.appendChild(this.btn);
 //  basicControls.appendChild(shareBtn);
 

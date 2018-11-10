@@ -27,6 +27,7 @@ if (!window.Big) {
   if (!window.robby) {
     window.robby = {
       myid: myId(),
+      delay: 5,
       stats: {
         petRuns: [ ]
       }
@@ -64,6 +65,11 @@ if (!window.Big) {
     if (isRemote && data.type === 'remove') {
       poll.removePoll(data.id);
       remoteSync();
+      return;
+    }
+
+    if (isRemote && data.type === 'sync-delay') {
+      window.robby.delay = data.delay;
       return;
     }
 
