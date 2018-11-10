@@ -85,9 +85,9 @@ Widget.prototype.inject = function() {
   this.basicControls.classList.add('basic-controls');
   this.basicControls.appendChild(prices);
 
-  let delayWidget = new DelayWidget();
+  this.delayWidget = new DelayWidget();
 
-  this.basicControls.appendChild(delayWidget.el);
+  this.basicControls.appendChild(this.delayWidget.el);
 
   this.basicControls.appendChild(this.btn);
 //  basicControls.appendChild(shareBtn);

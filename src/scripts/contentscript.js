@@ -68,8 +68,9 @@ if (!window.Big) {
       return;
     }
 
-    if (isRemote && data.type === 'sync-delay') {
+    if (data.type === 'sync-delay') {
       window.robby.delay = data.delay;
+      app.delayWidget.update();
       return;
     }
 
