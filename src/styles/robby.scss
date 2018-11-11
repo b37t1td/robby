@@ -239,7 +239,15 @@
     display: block !important;
   }
 
+  .remote-controls .delay-widget {
+    display: none;
+  }
+
   &.remote-mode {
+    .remote-controls .delay-widget {
+      display: block;
+    }
+
     .basic-controls {
       display: none;
     }

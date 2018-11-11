@@ -26,11 +26,11 @@ Widget.prototype.inject = function() {
   this.remoteMode.setAttribute('href', '#');
   this.remoteMode.addEventListener('click', this.remoteClick.bind(this));
 
-
   this.remoteStats = document.createElement('div');
   this.remoteStats.classList.add('remote-stats');
 
   let remoteContainer = document.createElement('div');
+  this.remoteContainer = remoteContainer;
   remoteContainer.classList.add('remote-controls');
   remoteContainer.appendChild(this.remoteMode);
   remoteContainer.appendChild(this.remoteStats);
@@ -86,11 +86,13 @@ Widget.prototype.inject = function() {
   this.basicControls.appendChild(prices);
 
   this.delayWidget = new DelayWidget();
+  this.upperControl = document.createElement('div');
 
-  this.basicControls.appendChild(this.delayWidget.el);
-
+  this.upperControl.appendChild(this.delayWidget.el);
+  this.basicControls.appendChild(this.upperControl);
   this.basicControls.appendChild(this.btn);
 //  basicControls.appendChild(shareBtn);
+//  remoteContainer.appendChild(this.delayWidget.el);
 
   let stats = document.createElement('div');
   stats.classList.add('stats');
@@ -282,10 +284,12 @@ Widget.prototype.remoteClick = function(e) {
     this.remote = false;
     this.container.classList.remove('remote-mode');
     this.remoteMode.innerText = 'Remote off';
+    this.upperControl.appendChild(this.delayWidget.el);
   } else {
     this.remote = true;
     this.container.classList.add('remote-mode');
     this.remoteMode.innerText = 'Remote on';
+    this.remoteContainer.appendChild(this.delayWidget.el);
   }
 
   this.opt.onremote(this.remote);

@@ -1,6 +1,6 @@
 {
   "name": "extension-boilerplate",
-  "version": "2.2.4",
+  "version": "2.2.5",
   "description": "A template for creating cross-browser extensions",
   "scripts": {
     "chrome-build": "cross-env TARGET=chrome gulp",

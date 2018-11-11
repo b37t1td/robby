@@ -68,11 +68,11 @@ if (!window.Big) {
       return;
     }
 
-    if (data.type === 'sync-delay') {
-      window.robby.delay = data.delay;
-      app.delayWidget.update();
-      return;
-    }
+//    if (data.type === 'sync-delay') {
+//      window.robby.delay = data.delay;
+//      app.delayWidget.update();
+//      return;
+//    }
 
     if (isRemote && data.type === 'ping') {
       remote.send({ type: 'pong', id: myid, stats: window.robby.stats });
