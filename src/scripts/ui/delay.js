@@ -40,6 +40,7 @@ class DelayWidget {
   changeDelay(e) {
     let delay = e.target.value;
     window.robby.delay = delay;
+    window.robby.ls.put('delay', delay);
     this.updateCount();
 //    window.robby.remote.send({ type: 'sync-delay', delay: delay });
   }

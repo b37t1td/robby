@@ -7,6 +7,7 @@ import PollRunner from './utils/poll';
 import RemotesWidget from './ui/list/remotes';
 import Queue from './ui/list/queue';
 import { petId, myId } from './utils/tools';
+import LocalStorage from 'localstorage';
 
 //document.getElementById('inner_container').removeChild(document.getElementById('alerts_toast_container'))
 
@@ -23,11 +24,15 @@ if (!window.Big) {
   injectScript(ext.extension.getURL('/scripts/contentscript.js'), 'body');
 } else {
 
+  let LS = new LocalStorage('robby');
+
+  console.log(LS.get('delay'));
 
   if (!window.robby) {
     window.robby = {
+      ls: LS,
       myid: myId(),
-      delay: 20,
+      delay: LS.get('delay')[1] || 20,
       stats: {
         petRuns: [ ]
       }
