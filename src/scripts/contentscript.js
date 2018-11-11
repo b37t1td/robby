@@ -7,7 +7,7 @@ import PollRunner from './utils/poll';
 import RemotesWidget from './ui/list/remotes';
 import Queue from './ui/list/queue';
 import { petId, myId } from './utils/tools';
-import LocalStorage from 'localstorage';
+import LocalStorage from './utils/localstorage';
 
 //document.getElementById('inner_container').removeChild(document.getElementById('alerts_toast_container'))
 
@@ -25,8 +25,6 @@ if (!window.Big) {
 } else {
 
   let LS = new LocalStorage('robby');
-
-  console.log(LS.get('delay'));
 
   if (!window.robby) {
     window.robby = {
