@@ -13,7 +13,7 @@ class DelayWidget {
     this.input.setAttribute('type', 'range');
     this.input.setAttribute('step', '1');
     this.input.setAttribute('min', 0);
-    this.input.setAttribute('max', 190);
+    this.input.setAttribute('max', 250);
     this.input.value = window.robby.delay;
 
     this.input.addEventListener('input', this.changeDelay.bind(this), false);
