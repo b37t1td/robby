@@ -1,6 +1,6 @@
 function Runner(options) {
   this.opt = options;
-  this.sl = 0;
+  this.sl = Math.ceil(Math.random() * 4);
   this.fp = {};
   this.stop = false;
 }
@@ -64,9 +64,9 @@ Runner.prototype.callback = function callback(status, data) {
       return this.upup();
     }
 
-    if (this.sl === 8) {
+    if (this.sl === 10) {
       this.opt.onfail();
-      this.sl = 0;
+      this.sl = Math.ceil(Math.random() * 4);
       return setTimeout(() => { this.upup(); }, 2000);
     }
 
