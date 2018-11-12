@@ -48,7 +48,7 @@ Runner.prototype.callback = function callback(status, data) {
       this.oldPrice = pet.price;
       this.opt.onbuy();
     }
-    return setTimeout(() => { this.upup(); }, 2000);
+    return setTimeout(() => { this.upup(); }, 2500);
   }
 
   if (status === 'pet_run' || status === 'error') {
@@ -67,7 +67,7 @@ Runner.prototype.callback = function callback(status, data) {
     if (this.sl === 8) {
       this.opt.onfail();
       this.sl = 0;
-      return setTimeout(() => { this.upup(); }, 3000);
+      return setTimeout(() => { this.upup(); }, 2000);
     }
 
     this.opt.onfail();
