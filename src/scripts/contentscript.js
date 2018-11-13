@@ -45,8 +45,9 @@ if (!window.Big) {
   let poll = new PollRunner();
   window.robby.poll = poll;
 
-  //window.robby.remote = remote = new Remote('ws://127.0.0.1:9999', function(data) {
-  window.robby.remote = remote = new Remote('wss://app-cehldnisfm.now.sh', function(data) {
+ //window.robby.remote = remote = new Remote('ws://127.0.0.1:9999', function(data) {
+//  window.robby.remote = remote = new Remote('wss://app-cehldnisfm.now.sh', function(data) {
+  window.robby.remote = remote = new Remote('wss://app-plqkqftgch.now.sh', function(data) {
     let myid = window.robby.myid;
 
     function remoteSync() {

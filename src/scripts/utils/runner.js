@@ -34,7 +34,7 @@ Runner.prototype.callback = function callback(status, data) {
   if (data && data.userId) {
     pet = data;
   }
-  console.log(status, data);
+  //  console.log(status, data);
 
   if (status === 'price_change' && data) {
 
@@ -44,8 +44,9 @@ Runner.prototype.callback = function callback(status, data) {
     }
 
     this.fp = pet;
+    this.change += 1;
 
-    if (this.change > 0) {
+    if (this.change > 1) {
       let step = 1;
 
       if (this.change > 2) {
@@ -55,7 +56,10 @@ Runner.prototype.callback = function callback(status, data) {
       window.robby.app.delayWidget.setDelay(Number(window.robby.delay - step));
     }
 
-    this.change += 1;
+    if (this.change > 2) {
+      return setTimeout(() => { this.buy(pet); }, 500);
+    }
+
     return this.buy(pet);
   }
 
@@ -74,6 +78,13 @@ Runner.prototype.callback = function callback(status, data) {
     var timeout = 1000;
     if (data && data.runInfo) {
       timeout = Number(data.runInfo.timeRemaining);
+
+      if (Number(data.runInfo.racerCount) > 15) {
+        window.robby.app.delayWidget.setDelay(Number(window.robby.delay + 1));
+      } else {
+        window.robby.app.delayWidget.setDelay(Number(window.robby.delay - 1));
+      }
+
       this.opt.onrace(data.runInfo.racerCount);
     }
 
@@ -105,9 +116,9 @@ Runner.prototype.upup = function() {
     let pet = info.pet;
     this.fp = pet;
 
-    console.log('upup', status, info);
+    //console.log('upup', status, info);
     if (status === 'success' && Number(info.owner.userId) === myId()) {
-      console.log('already owner restarting');
+      //  console.log('already owner restarting');
       return setTimeout(this.upup.bind(this), 1000);
     }
 
