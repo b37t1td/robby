@@ -50,7 +50,7 @@ Runner.prototype.callback = function callback(status, data) {
       let step = 1;
 
       if (this.change > 2) {
-        step = 5;
+        step = 20;
       }
 
       window.robby.app.delayWidget.setDelay(Number(window.robby.delay - step));
@@ -81,9 +81,10 @@ Runner.prototype.callback = function callback(status, data) {
 
       if (Number(data.runInfo.racerCount) > 15) {
         window.robby.app.delayWidget.setDelay(Number(window.robby.delay + 1));
-      } else if (Number(data.runInfo.racerCount) < 5) {
-        window.robby.app.delayWidget.setDelay(Number(window.robby.delay - 1));
       }
+//      else if (Number(data.runInfo.racerCount) < 5) {
+//        window.robby.app.delayWidget.setDelay(Number(window.robby.delay - 1));
+//      }
 
       this.opt.onrace(data.runInfo.racerCount);
     }
