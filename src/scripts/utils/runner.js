@@ -1,8 +1,11 @@
+import { myId } from './tools';
+
 function Runner(options) {
   this.opt = options;
   this.sl = Math.ceil(Math.random() * 4);
   this.fp = {};
   this.stop = false;
+  this.change = 0;
 }
 
 Runner.prototype.run = function(id, price) {
@@ -31,17 +34,32 @@ Runner.prototype.callback = function callback(status, data) {
   if (data && data.userId) {
     pet = data;
   }
-//  console.log(status, data);
+  console.log(status, data);
 
   if (status === 'price_change' && data) {
+
     if (data.pets && data.pets[0].userId) {
       pet.value = data.pets[0].value;
       pet.price = data.pets[0].value;
     }
+
     this.fp = pet;
 
+    if (this.change > 0) {
+      let step = 1;
+
+      if (this.change > 2) {
+        step = 5;
+      }
+
+      window.robby.app.delayWidget.setDelay(Number(window.robby.delay - step));
+    }
+
+    this.change += 1;
     return this.buy(pet);
   }
+
+  this.change = 0;
 
   if (status === 'already_owner' || status === 'success') {
     if (this.oldPrice !== pet.price) {
@@ -49,11 +67,11 @@ Runner.prototype.callback = function callback(status, data) {
       this.sl = 0;
       this.opt.onbuy();
     }
-    return setTimeout(() => { this.upup(); }, 4000);
+    return setTimeout(() => { this.upup(); }, 8000);
   }
 
   if (status === 'pet_run' || status === 'error') {
-    var timeout = 2000;
+    var timeout = 1000;
     if (data && data.runInfo) {
       timeout = Number(data.runInfo.timeRemaining);
       this.opt.onrace(data.runInfo.racerCount);
@@ -74,6 +92,10 @@ Runner.prototype.callback = function callback(status, data) {
     this.opt.onfail();
     let rtimeout = timeout - (Number(window.robby.delay) * 10);
 
+    if (rtimeout < 1) {
+      rtimeout = 1;
+    }
+
     return setTimeout(() => { this.buy(pet); }, rtimeout);
   }
 }
@@ -82,6 +104,12 @@ Runner.prototype.upup = function() {
   tagged.apps.pets3.api.getPet({ pet_id: this.id}, (status, info) => {
     let pet = info.pet;
     this.fp = pet;
+
+    console.log('upup', status, info);
+    if (status === 'success' && Number(info.owner.userId) === myId()) {
+      console.log('already owner restarting');
+      return setTimeout(this.upup.bind(this), 1000);
+    }
 
     if (pet.userId !== this.id) {
       console.log('Pet id does not match');

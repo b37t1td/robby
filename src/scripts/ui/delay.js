@@ -37,11 +37,17 @@ class DelayWidget {
     this.updateCount();
   }
 
-  changeDelay(e) {
-    let delay = e.target.value;
+  setDelay(delay) {
+    if (Number(delay) < 1) {
+      delay = 1;
+    }
     window.robby.delay = delay;
     window.robby.ls.put('delay', delay);
     this.updateCount();
+  }
+
+  changeDelay(e) {
+    this.setDelay(e.target.value);
 //    window.robby.remote.send({ type: 'sync-delay', delay: delay });
   }
 }
