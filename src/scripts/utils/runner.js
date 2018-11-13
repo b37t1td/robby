@@ -81,7 +81,7 @@ Runner.prototype.callback = function callback(status, data) {
 
       if (Number(data.runInfo.racerCount) > 15) {
         window.robby.app.delayWidget.setDelay(Number(window.robby.delay + 1));
-      } else {
+      } else if (Number(data.runInfo.racerCount) < 5) {
         window.robby.app.delayWidget.setDelay(Number(window.robby.delay - 1));
       }
 
