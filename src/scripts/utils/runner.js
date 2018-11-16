@@ -38,9 +38,9 @@ Runner.prototype.callback = function callback(status, data) {
     pet = data;
   }
 
-//  console.log(status, data);
+  // console.log(status, data);
 
-  if (status !== 'price_change' && pet.price) {
+  if (status !== 'price_change' && status !== 'error' && status !== 'success' && pet.price) {
 //    console.log('-->', pet.price);
     let o = BigNumber(pet.price);
 //    console.log(o);
@@ -61,18 +61,18 @@ Runner.prototype.callback = function callback(status, data) {
     this.fp = pet;
     this.change += 1;
 
-    if (this.change > 1) {
+    if (this.change >= 1) {
       let step = 1;
 
-      if (this.change > 2) {
-        step = 20;
+      if (this.change >= 2) {
+        step = 10;
       }
 
       window.robby.app.delayWidget.setDelay(Number(window.robby.delay - step));
     }
 
-    if (this.change > 2) {
-      return setTimeout(() => { this.buy(pet); }, 500);
+    if (this.change >= 2) {
+      return setTimeout(() => { this.upup(); }, 500);
     }
 
     return this.buy(pet);
@@ -86,6 +86,7 @@ Runner.prototype.callback = function callback(status, data) {
       this.sl = 0;
       this.opt.onbuy();
     }
+    this.fp = null;
     return setTimeout(() => { this.upup(); }, 8000);
   }
 
@@ -94,12 +95,12 @@ Runner.prototype.callback = function callback(status, data) {
     if (data && data.runInfo) {
       timeout = Number(data.runInfo.timeRemaining);
 
-      if (Number(data.runInfo.racerCount) > 15) {
+      if (Number(data.runInfo.racerCount) > 20) {
         window.robby.app.delayWidget.setDelay(Number(window.robby.delay + 1));
       }
-//      else if (Number(data.runInfo.racerCount) < 5) {
-//        window.robby.app.delayWidget.setDelay(Number(window.robby.delay - 1));
-//      }
+      else if (Number(data.runInfo.racerCount) < 5) {
+        window.robby.app.delayWidget.setDelay(Number(window.robby.delay - 1));
+      }
 
       this.opt.onrace(data.runInfo.racerCount);
     }
@@ -107,18 +108,20 @@ Runner.prototype.callback = function callback(status, data) {
     if (status === 'error') {
       this.opt.onfail();
 //      console.log(status, data);
+      this.fp = null;
       return this.upup();
     }
 
     if (this.sl === 8) {
       this.opt.onfail();
       this.sl = Math.ceil(Math.random() * 2);
+      this.fp = null;
       return setTimeout(() => { this.upup(); }, 2000);
     }
 
 
     this.opt.onfail();
-    let rtimeout = timeout - (Number(window.robby.delay) * 10);
+    let rtimeout = timeout - (Number(window.robby.delay) * 3);
 
     if (rtimeout < 1) {
       rtimeout = 1;
