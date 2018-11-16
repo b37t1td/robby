@@ -1,4 +1,5 @@
 import { myId } from './tools';
+import BigNumber from "./bignumber.js";
 
 function Runner(options) {
   this.opt = options;
@@ -36,10 +37,22 @@ Runner.prototype.callback = function callback(status, data) {
   if (data && data.userId) {
     pet = data;
   }
-  //  console.log(status, data);
+
+//  console.log(status, data);
+
+  if (status !== 'price_change' && pet.price) {
+//    console.log('-->', pet.price);
+    let o = BigNumber(pet.price);
+//    console.log(o);
+    let pre10 = o.dividedBy(100).times(10);
+
+    this.fp.price = pet.price = o.plus(pre10).toFixed(0);
+    this.fp.value = pet.value = this.fp.price;
+
+//    console.log(pet.price, this.fp.price);
+  }
 
   if (status === 'price_change' && data) {
-
     if (data.pets && data.pets[0].userId) {
       pet.value = data.pets[0].value;
       pet.price = data.pets[0].value;
@@ -102,6 +115,7 @@ Runner.prototype.callback = function callback(status, data) {
       this.sl = Math.ceil(Math.random() * 2);
       return setTimeout(() => { this.upup(); }, 2000);
     }
+
 
     this.opt.onfail();
     let rtimeout = timeout - (Number(window.robby.delay) * 10);
